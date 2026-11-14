@@ -1,0 +1,89 @@
+<!-- ==== 1. HEADER: logo, search, account / orders / cart ==== -->
+<header class="header">
+  <div class="container header-inner">
+    <a class="brand" routerLink="/">&#128722; Bazaario</a>
+
+    <form class="search" (submit)="search($event, searchInput.value)">
+      <input #searchInput type="text" placeholder="Search for products..." aria-label="Search products" />
+      <button type="submit" aria-label="Search">&#128269;</button>
+    </form>
+
+    <div class="actions">
+      @if (auth.isLoggedIn()) {
+        <a class="action" routerLink="/profile"><span class="ico">&#128100;</span>{{ firstName() }}</a>        
+        <a class="action" routerLink="/orders"><span class="ico">&#128230;</span>Orders</a>
+        <a class="action" routerLink="/cart">
+          <span class="ico">&#128722;</span>Cart
+          @if (cartService.itemCount() > 0) {
+            <span class="badge">{{ cartService.itemCount() }}</span>
+          }
+        </a>
+        <button class="action" type="button" (click)="logout()"><span class="ico">&#8618;</span>Logout</button>
+      } @else {
+        <a class="action" routerLink="/login"><span class="ico">&#128100;</span>Login</a>
+        <a class="signup" routerLink="/register">Sign up</a>
+      }
+    </div>
+  </div>
+</header>
+
+<!-- ==== 2. NAVIGATION: real  categories from the backend ==== -->
+<nav class="nav" aria-label="categories">
+  <div class="container nav-inner">
+    <a class="all" routerLink="/products">&#9776; All Products</a>
+    @for (c of navCategories(); track c.categoryId) {
+      <a routerLink="/products" [queryParams]="{ categoryId: c.categoryId }">{{ c.categoryName  }}</a>
+    }
+    @if (auth.isAdmin()) {
+      <span class="admin-links">
+        <a routerLink="/admin/products">Manage Products</a>
+        <a routerLink="/admin/orders">All Orders</a>
+        <a routerLink="/admin/users">Users</a>
+      </span>
+    }
+  </div>
+</nav>
+
+<main>
+  <router-outlet />
+</main>
+
+<!-- ==== 8. Footer ==== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="f-brand">&#128722; Bazaario</div>
+        <p class="tag">Shop Smarter, Live Better.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a routerLink="/products">All Products</a></li>
+          <li><a routerLink="/cart">Cart</a></li>
+          <li><a routerLink="/orders">My Orders</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Account</h4>
+        <ul>
+          @if (auth.isLoggedIn()) {
+            <li><a routerLink="/profile">Profile</a></li>
+          } @else {
+            <li><a routerLink="/login">Login</a></li>
+            <li><a routerLink="/register">Sign up</a></li>
+          }
+        </ul>
+      </div>
+      <div>
+        <h4>About</h4>
+        <ul>
+          <li>Built with Spring Boot</li>
+          <li>Angular + MySQL</li>
+          <li>A learning project</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy">&copy; 2026 Bazaario - Built for learning, not a real store.</div>
+  </div>
+</footer>

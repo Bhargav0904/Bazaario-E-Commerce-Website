@@ -1,0 +1,39 @@
+<div class="page">
+  <h1>Your orders</h1>
+
+  @if (loading()) {
+    <p>Loading your orders...</p>
+  } @else if (orders().length === 0) {
+    <div class="empty-state">
+      <h3>No orders yet</h3>
+      <p>Once you place an order, it'll show up here.</p>
+      <a routerLink="/products">Browse products</a>
+    </div>
+  } @else {
+    @for (order of orders(); track order.orderId) {
+      <div class="order-card">
+        <div class="order-head" (click)="toggle(order.orderId)">
+          <div>
+            <strong>Order #{{ order.orderId }}</strong>
+            <div class="muted">{{ order.orderDate | date: 'dd MMM yyyy, h:mm a' }}</div>
+          </div>
+          <span [class]="badgeClass(order.status)">{{ order.status }}</span>
+          <span class="price-tag">&#8377;{{ order.totalAmount.toFixed(2) }}</span>
+          <span class="chevron">{{ expandedId() === order.orderId ? '▲' : '▼' }}</span>
+        </div>
+
+        @if (expandedId() === order.orderId) {
+          <div class="order-body">
+            <p class="muted">Shipping to: {{ order.shippingAddress }}</p>
+            @for (item of order.items; track item.orderItemId) {
+              <div class="order-item">
+                <span>{{ item.productName }} &times; {{ item.quantity }}</span>
+                <span>&#8377;{{ item.subtotal.toFixed(2) }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

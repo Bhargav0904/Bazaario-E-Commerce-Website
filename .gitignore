@@ -1,0 +1,37 @@
+# ===== Backend (Spring Boot / Maven / STS) =====
+bazaario-backend/target/
+bazaario-backend/.classpath
+bazaario-backend/.project
+bazaario-backend/.settings/
+bazaario-backend/.factorypath
+bazaario-backend/.sts4-cache/
+bazaario-backend/HELP.md
+.metadata/
+.recommenders/
+Servers/
+RemoteSystemsTempFiles/
+
+# ===== Frontend (Angular) - generated files =====
+bazaario-frontend/node_modules/
+bazaario-frontend/dist/
+bazaario-frontend/.angular/
+bazaario-frontend/out-tsc/
+
+# ===== Passwords and local settings (never upload) =====
+.env
+*.env
+**/application-local.properties
+**/application-secret.properties
+
+# ===== Database copies with real customer data =====
+*backup*.sql
+*dump*.sql
+
+# ===== Zip copies, logs, editors and system files =====
+*.zip
+*.log
+.vscode/
+.idea/
+.history/
+.DS_Store
+Thumbs.db

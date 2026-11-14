@@ -1,0 +1,52 @@
+<div class="page">
+  <div class="page-head">
+    <h1>Shop</h1>
+    <form class="search-form" (ngSubmit)="onSearch()">
+      <input type="text" placeholder="Search products..." [(ngModel)]="keyword" name="keyword" />
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  @if (categories().length > 0) {
+    <div class="filter-row">
+      <button class="chip" [class.active]="selectedCategoryId() === null"
+              (click)="filterByCategory(null)">All</button>
+      @for (cat of categories(); track cat.categoryId) {
+        <button class="chip" [class.active]="selectedCategoryId() === cat.categoryId"
+                (click)="filterByCategory(cat.categoryId)">{{ cat.categoryName }}</button>
+      }
+    </div>
+  }
+
+  @if (loading()) {
+    <p>Loading products...</p>
+  } @else if (products().length === 0) {
+    <div class="empty-state">
+      <h3>No products found</h3>
+      <p>Try a different search or category.</p>
+    </div>
+  } @else {
+    <div class="product-grid">
+      @for (product of products(); track product.productId) {
+        <a class="product-card" [routerLink]="['/products', product.productId]">
+          <div class="product-thumb">
+            @if (product.imageUrl) {
+              <img [src]="apiBase + '/images/products/' + product.imageUrl" [alt]="product.productName" />
+            } @else {
+              <span>No image</span>
+            }
+          </div>
+          <div class="product-body">
+            <h3>{{ product.productName }}</h3>
+            <div class="product-meta">
+              <span class="price-tag">&#8377;{{ product.price.toFixed(2) }}</span>
+              <span class="stock-note" [class.low]="product.quantity < 5">
+                {{ product.quantity > 0 ? product.quantity + ' left' : 'Out of stock' }}
+              </span>
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</div>

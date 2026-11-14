@@ -1,0 +1,52 @@
+<div class="page narrow">
+  <h1>Your profile</h1>
+
+  <div class="card">
+    <h3>Account details</h3>
+
+    @if (profileMessage()) { <div class="alert alert-success">{{ profileMessage() }}</div> }
+    @if (profileError()) { <div class="alert alert-error">{{ profileError() }}</div> }
+
+    <form (ngSubmit)="saveProfile()" #profileForm="ngForm">
+      <div class="form-group">
+        <label for="fullName">Full name</label>
+        <input type="text" id="fullName" name="fullName" [(ngModel)]="fullName" required />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [value]="profile()?.email ?? ''" disabled />
+        <small class="muted">Email can't be changed here.</small>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" [(ngModel)]="phone" />
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea id="address" name="address" [(ngModel)]="address" rows="3"></textarea>
+      </div>
+      <button type="submit" [disabled]="!profileForm.valid">Save changes</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Change password</h3>
+
+    @if (passwordMessage()) { <div class="alert alert-success">{{ passwordMessage() }}</div> }
+    @if (passwordError()) { <div class="alert alert-error">{{ passwordError() }}</div> }
+
+    <form (ngSubmit)="changePassword()" #passwordForm="ngForm">
+      <div class="form-group">
+        <label for="oldPassword">Current password</label>
+        <input type="password" id="oldPassword" name="oldPassword" [(ngModel)]="oldPassword" required />
+      </div>
+      <div class="form-group">
+        <label for="newPassword">New password</label>
+        <input type="password" id="newPassword" name="newPassword"
+               [(ngModel)]="newPassword" required minlength="6" />
+        <small class="muted">At least 6 characters.</small>
+      </div>
+      <button type="submit" [disabled]="!passwordForm.valid">Update password</button>
+    </form>
+  </div>
+</div>

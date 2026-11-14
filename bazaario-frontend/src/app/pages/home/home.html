@@ -1,0 +1,105 @@
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-main">
+    <div>
+      <h1>{{ slide().title }}</h1>
+      <p>{{ slide().text }}</p>
+      <a class="btn" routerLink="/products">Shop Now</a>
+      <div class="dots">
+        @for (s of slides; track $index) {
+          <button type="button" [class.active]="$index === index()"
+                  [attr.aria-label]="'Show slide ' + ($index + 1)" (click)="goTo($index)"></button>
+        }
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">{{ slide().art }}</div>
+  </div>
+
+  <aside class="hero-side">
+    <h2>New Arrivals</h2>
+    <p>Fresh picks added to the shop.</p>
+    <a routerLink="/products">Explore &rarr;</a>
+  </aside>
+</section>
+
+<!-- ============ CATEGORY CIRCLES (real categories from the backend) ============ -->
+<section class="section">
+  <div class="cats">
+    @for (c of shownCategories(); track c.categoryId) {
+      <a class="cat" routerLink="/products" [queryParams]="{ categoryId: c.categoryId }">
+        <span class="circle">{{ iconFor(c.categoryName) }}</span>{{ c.categoryName }}
+      </a>
+    }
+    <a class="cat" routerLink="/products"><span class="circle">&hellip;</span>More</a>
+  </div>
+</section>
+
+<!-- ============ FEATURED PRODUCTS (real products from the backend) ============ -->
+<section class="section">
+  <div class="section-head">
+    <h2>Featured Products</h2>
+    <a routerLink="/products">View All &rarr;</a>
+  </div>
+
+  @if (cartError()) { <div class="alert-error">{{ cartError() }}</div> }
+
+  @if (loading()) {
+    <p class="empty">Loading products...</p>
+  } @else if (featured().length === 0) {
+    <p class="empty">No products yet. Add some from the admin panel.</p>
+  } @else {
+    <div class="products">
+      @for (p of featured(); track p.productId) {
+        <article class="card">
+          <a class="img" [routerLink]="['/products', p.productId]">
+            @if (p.imageUrl && !failed().has(p.productId)) {
+              <img [src]="apiBase + '/images/products/' + p.imageUrl" [alt]="p.productName"
+                   (error)="markFailed(p.productId)" />
+            } @else {
+              <span aria-hidden="true">🛍️</span>
+            }
+          </a>
+          <h3><a [routerLink]="['/products', p.productId]">{{ p.productName }}</a></h3>
+          <div class="price">&#8377;{{ p.price.toFixed(2) }}</div>
+          <div class="stock" [class.low]="p.quantity < 5">
+            {{ p.quantity > 0 ? p.quantity + ' left' : 'Out of stock' }}
+          </div>
+          <button class="add" type="button" [class.done]="addedId() === p.productId"
+                  [disabled]="p.quantity === 0" (click)="addToCart(p)">
+            {{ addedId() === p.productId ? 'Added ✓' : 'Add to Cart' }}
+          </button>
+        </article>
+      }
+    </div>
+  }
+</section>
+
+<!-- ============ PROMO BANNERS (plain text - edit freely) ============ -->
+<section class="section promos">
+  <div class="promo a">
+    <div><h3>Shop the Latest</h3><p>New In Store</p><a class="btn" routerLink="/products">Shop Now</a></div>
+    <div class="art" aria-hidden="true">🌴</div>
+  </div>
+  <div class="promo b">
+    <div><h3>Browse Everything</h3><p>All Categories</p><a class="btn" routerLink="/products">Explore</a></div>
+    <div class="art" aria-hidden="true">🛍️</div>
+  </div>
+</section>
+
+<!-- ============ NEWSLETTER ============ -->
+<section class="section news">
+  <div class="ico" aria-hidden="true">&#9993;</div>
+  <div class="news-text">
+    <h2>Stay Updated</h2>
+    <p>Get the latest offers, new arrivals and exclusive deals.</p>
+  </div>
+  <div class="news-form">
+    <form (submit)="subscribe($event, emailInput)" novalidate>
+      <input #emailInput type="email" placeholder="Enter your email" aria-label="Email address" />
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="msg" [class.ok]="newsOk()" [class.err]="newsMessage() && !newsOk()" role="status">
+      {{ newsMessage() }}
+    </p>
+  </div>
+</section>

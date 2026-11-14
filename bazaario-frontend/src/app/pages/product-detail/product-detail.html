@@ -1,0 +1,44 @@
+<div class="page">
+  <p><a routerLink="/products">&larr; Back to shop</a></p>
+
+  @if (loading()) {
+    <p>Loading...</p>
+  } @else if (product(); as p) {
+    <div class="detail-grid">
+      <div class="detail-thumb">
+        @if (p.imageUrl) {
+          <img [src]="apiBase + '/images/products/' + p.imageUrl" [alt]="p.productName" />
+        } @else {
+          <span>No image</span>
+        }
+      </div>
+
+      <div class="detail-info">
+        <h1>{{ p.productName }}</h1>
+        <span class="price-tag price-tag-lg">&#8377;{{ p.price.toFixed(2) }}</span>
+        <p class="muted">{{ p.categoryName }}</p>
+        <p class="description">{{ p.description || 'No description available.' }}</p>
+
+        <p [class.low-stock]="p.quantity < 5">
+          {{ p.quantity > 0 ? p.quantity + ' in stock' : 'Out of stock' }}
+        </p>
+
+        @if (message()) { <div class="alert alert-success">{{ message() }}</div> }
+        @if (error()) { <div class="alert alert-error">{{ error() }}</div> }
+
+        @if (p.quantity > 0) {
+          <div class="qty-row">
+            <button type="button" (click)="changeQty(-1)">&minus;</button>
+            <input type="number" [(ngModel)]="quantity" [min]="1" [max]="p.quantity" />
+            <button type="button" (click)="changeQty(1)">+</button>
+          </div>
+          <button class="btn-add" (click)="addToCart()">Add to cart</button>
+        } @else {
+          <button disabled>Out of stock</button>
+        }
+      </div>
+    </div>
+  } @else {
+    <p>{{ error() }}</p>
+  }
+</div>

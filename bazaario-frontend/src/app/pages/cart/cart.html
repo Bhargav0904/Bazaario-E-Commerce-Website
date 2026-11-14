@@ -1,0 +1,60 @@
+<div class="page">
+  <div class="page-head">
+    <h1>Your cart</h1>
+    @if ((cartService.cart()?.items?.length ?? 0) > 0) {
+      <button class="btn-outline" (click)="clear()">Clear cart</button>
+    }
+  </div>
+
+  @if (error()) { <div class="alert alert-error">{{ error() }}</div> }
+
+  @if (loading()) {
+    <p>Loading your cart...</p>
+  } @else if (cartService.cart(); as cart) {
+    @if (cart.items.length === 0) {
+      <div class="empty-state">
+        <h3>Your cart is empty</h3>
+        <p>Add something you like from the shop.</p>
+        <a class="btn-link" routerLink="/products">Browse products</a>
+      </div>
+    } @else {
+      <div class="cart-card">
+        @for (item of cart.items; track item.cartItemId) {
+          <div class="cart-line">
+            <div class="cart-thumb">
+              @if (item.imageUrl) {
+                <img [src]="apiBase + '/images/products/' + item.imageUrl" [alt]="item.productName" />
+              } @else { <span>No image</span> }
+            </div>
+
+            <div class="cart-name">
+              <strong>{{ item.productName }}</strong>
+              <div class="muted">&#8377;{{ item.price.toFixed(2) }} each</div>
+            </div>
+
+            <div class="cart-qty">
+              <button (click)="updateQty(item.cartItemId, item.quantity - 1)">&minus;</button>
+              <span>{{ item.quantity }}</span>
+              <button
+                [disabled]="item.quantity >= item.availableStock"
+                (click)="updateQty(item.cartItemId, item.quantity + 1)">+</button>
+            </div>
+
+            <span class="price-tag">&#8377;{{ item.subtotal.toFixed(2) }}</span>
+
+            <button class="btn-danger" (click)="remove(item.cartItemId)">Remove</button>
+          </div>
+        }
+
+        <div class="cart-summary">
+          <span class="muted">Total</span>
+          <span class="price-tag price-tag-lg">&#8377;{{ cart.total.toFixed(2) }}</span>
+        </div>
+      </div>
+
+      <div class="checkout-row">
+        <a class="btn-link primary" routerLink="/checkout">Proceed to checkout</a>
+      </div>
+    }
+  }
+</div>

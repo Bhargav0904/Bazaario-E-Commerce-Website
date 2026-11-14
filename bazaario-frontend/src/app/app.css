@@ -1,0 +1,190 @@
+/* Template: header, category navigation and footer (see app.html) */
+h1,h2,h3,h4,p,ul{margin:0}
+a{color:inherit}
+ul{padding:0}
+
+/* 1. HEADER */
+.header{
+  background:#fff;
+  border-bottom:1px solid var(--color-border);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  padding:14px 0;
+}
+.logo{
+  font-size:1.4rem;
+  font-weight:800;
+  color:var(--color-primary);
+  white-space:nowrap;
+}
+.search{
+  flex:1;
+  display:flex;
+  max-width:560px;
+}
+.search input{
+  flex:1;
+  min-width:0;
+  padding:11px 14px;
+  border:1px solid var(--color-border);
+  border-right:0;
+  border-radius:8px 0 0 8px;
+  font:inherit;
+}
+.search button{
+  background:var(--color-primary);
+  color:#fff;padding:0 18px;
+  border-radius:0 8px 8px 0;
+}
+.actions{
+  display:flex;
+  gap:20px;
+  margin-left:auto;
+}
+.action{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:.72rem;color:var(--color-muted);
+  position:relative
+}
+.action .ico{
+  font-size:1.3rem;
+  line-height:1;
+}
+.badge{
+  position:absolute;
+  top:-6px;right:-6px;
+  background:var(--color-error);
+  color:#fff;font-size:.65rem;
+  font-weight:700;border-radius:999px;
+  padding:1px 6px
+}
+
+/* 2. NAVIGATION */
+.nav{
+  background:var(--color-primary);
+}
+.nav-inner{
+  display:flex;gap:26px;
+  overflow-x:auto;
+  white-space:nowrap;
+}
+.nav a{
+  color:#fff;
+  opacity:.9;font-size:.9rem;
+  padding:12px 0;
+}
+.nav a:hover{
+  opacity:1;
+  color:var(--color-accent);
+}
+.nav .all{
+  font-weight:700;
+  opacity:1;
+}
+
+/* 8. FOOTER */
+.footer{
+  background:var(--color-primary-dark);
+  color:#cfd8d5;
+  margin-top:44px;
+  padding:40px 0 18px;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.6fr 1fr 1fr 1fr;
+  gap:28px;
+}
+.footer h4{
+  color:#fff;
+  margin-bottom:10px;
+  font-size:.95rem;
+}
+.footer li{
+  list-style:none;
+  margin:6px 0;
+  font-size:.88rem;
+}
+.footer a:hover{
+  color:var(--color-accent);
+}
+.footer .f-brand{
+  color:#fff;
+  font-size:1.25rem;
+  font-weight:800;
+}
+.footer .tag{
+  font-size:.88rem;
+  margin-top:6px;
+}
+.social{
+  display:flex;
+  gap:10px;margin-top:14px;
+}
+.social a{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  display:grid;
+  place-items:center;
+  font-size:.8rem;
+  font-weight:700;
+}
+.copy{
+  border-top:1px solid rgba(255,255,255,.15);
+  margin-top:28px;
+  padding-top:16px;
+  text-align:center;
+  font-size:.8rem;
+}
+
+/* Bazaario additions */
+.signup{background:var(--color-accent);
+  color:var(--color-primary-dark);
+  font-weight:700;padding:9px 16px;
+  border-radius:8px;white-space:nowrap;
+}
+button.action{
+  background:none;
+  padding:0;border:0;
+  border-radius:0;
+  font:inherit;
+  font-size:.72rem;
+  color:var(--color-muted);
+}
+.admin-links{
+  margin-left:auto;
+  display:flex;
+  gap:22px;
+}
+.nav .admin-links a{
+  color:var(--color-accent);
+}
+main{
+  max-width:1180px;
+  margin:0 auto;
+  padding:24px 20px;
+  min-height:60vh;
+}
+
+@media(max-width:900px){
+  .header-inner{
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .search{
+    order:3;
+    flex-basis:100%;
+    max-width:none;
+  }
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:520px){.footer-grid{grid-template-columns:1fr}}

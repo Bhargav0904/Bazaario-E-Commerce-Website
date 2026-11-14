@@ -1,0 +1,60 @@
+<div class="page narrow">
+  <h1>Checkout</h1>
+
+  @if (error()) { <div class="alert alert-error">{{ error() }}</div> }
+
+  @if (placedOrderId(); as orderId) {
+    <!-- Step 2: order created, now take payment -->
+    <div class="card">
+      <h3>Order #{{ orderId }} placed</h3>
+      <p class="muted">Choose how you'd like to pay to confirm it.</p>
+
+      <div class="form-group">
+        <label for="paymentMethod">Payment method</label>
+        <select id="paymentMethod" name="paymentMethod" [(ngModel)]="paymentMethod">
+          <option value="UPI">UPI</option>
+          <option value="CARD">Card</option>
+          <option value="NET_BANKING">Net banking</option>
+          <option value="COD">Cash on delivery</option>
+        </select>
+      </div>
+
+      <button (click)="pay()" [disabled]="placing()">
+        {{ placing() ? 'Processing...' : 'Pay now' }}
+      </button>
+    </div>
+  } @else if (cartService.cart(); as cart) {
+    @if (cart.items.length === 0) {
+      <div class="empty-state">
+        <h3>Your cart is empty</h3>
+        <a routerLink="/products">Browse products</a>
+      </div>
+    } @else {
+      <!-- Step 1: review + shipping address -->
+      <div class="card">
+        <h3>Order summary</h3>
+        @for (item of cart.items; track item.cartItemId) {
+          <div class="summary-line">
+            <span>{{ item.productName }} &times; {{ item.quantity }}</span>
+            <span>&#8377;{{ item.subtotal.toFixed(2) }}</span>
+          </div>
+        }
+        <div class="summary-total">
+          <span class="muted">Total</span>
+          <span class="price-tag">&#8377;{{ cart.total.toFixed(2) }}</span>
+        </div>
+      </div>
+
+      <form class="card" (ngSubmit)="placeOrder()" #checkoutForm="ngForm">
+        <div class="form-group">
+          <label for="shippingAddress">Shipping address</label>
+          <textarea id="shippingAddress" name="shippingAddress"
+                    [(ngModel)]="shippingAddress" required rows="3"></textarea>
+        </div>
+        <button type="submit" [disabled]="!checkoutForm.valid || placing()">
+          {{ placing() ? 'Placing order...' : 'Place order' }}
+        </button>
+      </form>
+    }
+  }
+</div>

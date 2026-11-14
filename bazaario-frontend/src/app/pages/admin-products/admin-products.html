@@ -1,0 +1,84 @@
+<div class="page">
+  <h1>Manage products</h1>
+
+  @if (message()) { <div class="alert alert-success">{{ message() }}</div> }
+  @if (error()) { <div class="alert alert-error">{{ error() }}</div> }
+
+  <div class="card">
+    <h3>{{ editingId() ? 'Edit product' : 'Add a product' }}</h3>
+
+    <form (ngSubmit)="save()" #productForm="ngForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="productName">Product name</label>
+          <input type="text" id="productName" name="productName"
+                 [(ngModel)]="form.productName" required />
+        </div>
+        <div class="form-group">
+          <label for="categoryId">Category</label>
+          <select id="categoryId" name="categoryId" [(ngModel)]="form.categoryId" required>
+            @for (cat of categories(); track cat.categoryId) {
+              <option [value]="cat.categoryId">{{ cat.categoryName }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" [(ngModel)]="form.description" rows="2"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="price">Price (&#8377;)</label>
+          <input type="number" id="price" name="price" step="0.01" min="0.01"
+                 [(ngModel)]="form.price" required />
+        </div>
+        <div class="form-group">
+          <label for="quantity">Stock quantity</label>
+          <input type="number" id="quantity" name="quantity" min="0"
+                 [(ngModel)]="form.quantity" required />
+        </div>
+        <div class="form-group">
+          <label for="imageUrl">Image filename</label>
+          <input type="text" id="imageUrl" name="imageUrl"
+                 [(ngModel)]="form.imageUrl" placeholder="mouse.jpg" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="!productForm.valid">
+          {{ editingId() ? 'Save changes' : 'Add product' }}
+        </button>
+        @if (editingId()) {
+          <button type="button" class="btn-outline" (click)="cancelEdit()">Cancel</button>
+        }
+      </div>
+    </form>
+  </div>
+
+  @if (products().length === 0) {
+    <div class="empty-state"><h3>No products yet</h3></div>
+  } @else {
+    <table class="data-table">
+      <thead>
+        <tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr>
+      </thead>
+      <tbody>
+        @for (product of products(); track product.productId) {
+          <tr>
+            <td>{{ product.productName }}</td>
+            <td class="muted">{{ product.categoryName }}</td>
+            <td>&#8377;{{ product.price.toFixed(2) }}</td>
+            <td [class.low]="product.quantity < 5">{{ product.quantity }}</td>
+            <td class="actions">
+              <button class="btn-outline btn-sm" (click)="startEdit(product)">Edit</button>
+              <button class="btn-danger btn-sm" (click)="remove(product)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

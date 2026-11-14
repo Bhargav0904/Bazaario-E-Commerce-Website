@@ -1,0 +1,15 @@
+.order-card { background: #fff; border: 1px solid var(--color-border); border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+.order-head { display: grid; grid-template-columns: 1fr auto auto 30px; align-items: center; gap: 16px; padding: 16px 20px; cursor: pointer; }
+.order-head:hover { background: var(--color-bg); }
+.order-body { padding: 0 20px 18px; border-top: 1px solid var(--color-border); }
+.order-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--color-border); }
+.order-item:last-child { border-bottom: none; }
+.chevron { color: var(--color-muted); font-size: 0.7rem; }
+.badge { padding: 4px 12px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+.badge-pending { background: #FCEFD8; color: #92660E; }
+.badge-confirmed { background: #DCEEF7; color: #1B5D80; }
+.badge-shipped { background: #E4E1F7; color: #4C3E9E; }
+.badge-delivered { background: #E8F5EE; color: #2F8F5B; }
+.badge-cancelled { background: #FBEAE7; color: #C24A3C; }
+.empty-state { text-align: center; padding: 50px 20px; color: var(--color-muted); }
+.muted { color: var(--color-muted); font-size: 0.85rem; }

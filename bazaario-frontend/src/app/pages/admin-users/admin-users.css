@@ -1,0 +1,12 @@
+.data-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--color-border); border-radius: 6px; overflow: hidden; }
+.data-table th, .data-table td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--color-border); font-size: 0.9rem; }
+.data-table th { background: var(--color-bg); font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; color: var(--color-muted); }
+.data-table tr:last-child td { border-bottom: none; }
+.badge { padding: 3px 10px; border-radius: 999px; font-size: 0.68rem; font-weight: 700; background: var(--color-border); color: var(--color-text); }
+.badge-admin { background: var(--color-primary); color: #fff; }
+.btn-sm { padding: 5px 11px; font-size: 0.8rem; }
+.btn-danger { background: var(--color-error); }
+.alert-success { background: #E8F5EE; color: #2F8F5B; padding: 10px 14px; border-radius: 4px; margin-bottom: 14px; }
+.muted { color: var(--color-muted); }
+.note { margin-top: 14px; font-size: 0.82rem; }
+.empty-state { text-align: center; padding: 40px; color: var(--color-muted); }

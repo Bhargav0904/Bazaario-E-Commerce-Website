@@ -1,0 +1,38 @@
+<div class="page">
+  <h1>Manage orders</h1>
+
+  @if (message()) { <div class="alert alert-success">{{ message() }}</div> }
+  @if (error()) { <div class="alert alert-error">{{ error() }}</div> }
+
+  @if (loading()) {
+    <p>Loading orders...</p>
+  } @else if (orders().length === 0) {
+    <div class="empty-state"><h3>No orders yet</h3></div>
+  } @else {
+    <table class="data-table">
+      <thead>
+        <tr><th>Order</th><th>Customer</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Update</th></tr>
+      </thead>
+      <tbody>
+        @for (order of orders(); track order.orderId) {
+          <tr>
+            <td>#{{ order.orderId }}</td>
+            <td>{{ order.customerName }}</td>
+            <td class="muted">{{ order.orderDate | date: 'dd MMM yyyy' }}</td>
+            <td class="muted">{{ order.items.length }}</td>
+            <td>&#8377;{{ order.totalAmount.toFixed(2) }}</td>
+            <td><span [class]="badgeClass(order.status)">{{ order.status }}</span></td>
+            <td>
+              <select [ngModel]="order.status" (ngModelChange)="changeStatus(order, $event)"
+                      [name]="'status-' + order.orderId">
+                @for (status of statuses; track status) {
+                  <option [value]="status">{{ status }}</option>
+                }
+              </select>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

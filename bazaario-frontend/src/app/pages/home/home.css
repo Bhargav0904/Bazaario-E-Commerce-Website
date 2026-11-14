@@ -1,0 +1,67 @@
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+.btn{display:inline-block;background:var(--color-accent);color:var(--color-primary-dark);font-weight:700;padding:10px 20px;border-radius:8px}
+.btn:hover{filter:brightness(.95)}
+.hero{display:grid;grid-template-columns:2.4fr 1fr;gap:16px;margin:20px 0}
+.hero-main{background:linear-gradient(120deg,#dfeee9,#f7ecd3);border-radius:14px;padding:44px;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:260px;overflow:hidden}
+.hero-main h1{white-space:pre-line;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.1;color:var(--color-primary-dark);margin-bottom:10px}
+.hero-main p{color:var(--color-muted);margin-bottom:20px}
+.hero-art{font-size:clamp(3rem,8vw,5.5rem);letter-spacing:.08em}
+.dots{display:flex;gap:6px;margin-top:18px}
+.hero-side{background:var(--color-primary);color:#fff;border-radius:14px;padding:28px;display:flex;flex-direction:column;justify-content:center}
+.hero-side h2{font-size:1.5rem;margin-bottom:8px}
+.hero-side a{color:var(--color-accent);font-weight:600}
+.section{margin:34px 0}
+.section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.section-head h2{font-size:1.25rem}
+.section-head a{color:var(--color-primary);font-weight:600;font-size:.9rem}
+.cats{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;text-align:center}
+.cat{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.85rem;font-weight:500}
+.circle{width:76px;height:76px;border-radius:50%;background:#fff;border:1px solid var(--color-border);display:grid;place-items:center;font-size:2rem;transition:transform .15s,box-shadow .15s}
+.cat:hover .circle{transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,.1)}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--color-border);border-radius:12px;padding:14px;position:relative;display:flex;flex-direction:column;gap:6px}
+.img{aspect-ratio:1/1;background:var(--color-bg);border-radius:8px;display:grid;place-items:center;font-size:4rem}
+.card h3{font-size:.95rem;font-weight:600}
+.price{font-weight:800}
+.add{margin-top:auto;background:var(--color-primary);color:#fff;padding:10px;border-radius:8px;font-weight:600}
+.add:hover{background:var(--color-primary-dark)}
+.promos{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.promo{border-radius:14px;padding:30px;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:150px}
+.promo.a{background:linear-gradient(120deg,#d9f1e4,#bfe6d1)}
+.promo.b{background:linear-gradient(120deg,#fbe9cf,#f6d3a4)}
+.promo h3{font-size:1.1rem}
+.promo p{font-size:1.5rem;font-weight:800;color:var(--color-primary);margin:4px 0 14px}
+.promo .art{font-size:4.5rem}
+.news{background:#E8F0EC;border-radius:14px;padding:26px 30px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.news .ico{font-size:2.2rem}
+.news-text{flex:1;min-width:220px}
+.news-text h2{font-size:1.15rem}
+.news-text p{color:var(--color-muted);font-size:.9rem}
+.news form{display:flex;flex:1;min-width:260px;max-width:460px}
+.news input{flex:1;min-width:0;padding:12px 14px;border:1px solid var(--color-border);border-right:0;border-radius:8px 0 0 8px;font:inherit}
+.news button{background:var(--color-primary);color:#fff;padding:0 22px;border-radius:0 8px 8px 0;font-weight:600}
+.dots button{width:10px;height:10px;border-radius:50%;background:var(--color-primary);opacity:.3;padding:0}
+.dots button.active{opacity:1}
+.img img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+.add.done{background:var(--color-accent);color:var(--color-primary-dark)}
+.empty{grid-column:1/-1;text-align:center;color:var(--color-muted);padding:30px 0}
+.news-form{flex:1;min-width:260px;max-width:460px}
+.news-form form{min-width:0;max-width:none}
+.msg{font-size:.85rem;min-height:1.2em;margin-top:6px}
+.msg.ok{color:var(--color-primary)}
+.msg.err{color:var(--color-error)}
+.stock{font-size:.78rem;color:var(--color-muted)}
+.stock.low{color:var(--color-error)}
+.card h3 a:hover{color:var(--color-primary)}
+.card h3{font-family:var(--font-body)}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .cats{grid-template-columns:repeat(4,1fr)}
+  .products{grid-template-columns:repeat(2,1fr)}
+  .promos{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  .hero-main{padding:28px;flex-direction:column;align-items:flex-start}
+  .cats{grid-template-columns:repeat(3,1fr)}
+}
