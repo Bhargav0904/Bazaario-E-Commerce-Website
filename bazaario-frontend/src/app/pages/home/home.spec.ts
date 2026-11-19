@@ -5,6 +5,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { vi } from 'vitest';
 
 import { Home } from './home';
+import { BANNER_SLIDES } from '../../shared/hero-slider/banner-slides';
 
 const categories = [
   { categoryId: 1, categoryName: 'Electronics', description: '' },
@@ -45,13 +46,10 @@ describe('Home', () => {
     expect(el.querySelectorAll('.card .add')[1].hasAttribute('disabled')).toBe(true); // out of stock
   });
 
-  it('changes the hero slide when a dot is clicked', async () => {
-    const fixture = await loadedPage();
-    const el = fixture.nativeElement as HTMLElement;
-    expect(el.querySelector('h1')?.textContent).toContain('Upgrade');
-    (el.querySelectorAll('.dots button')[1] as HTMLButtonElement).click();
-    fixture.detectChanges();
-    expect(el.querySelector('h1')?.textContent).toContain('New Season');
+  it('shows the slider with the slides from banner-slides.ts', async () => {
+    const el = (await loadedPage()).nativeElement as HTMLElement;
+    expect(el.querySelector('app-hero-slider')).not.toBeNull();
+    expect(el.querySelectorAll('.slider .slide').length).toBe(BANNER_SLIDES.length);
   });
 
   it('sends a logged-out visitor to the login page instead of adding to cart', async () => {

@@ -1,19 +1,6 @@
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <div class="hero-main">
-    <div>
-      <h1>{{ slide().title }}</h1>
-      <p>{{ slide().text }}</p>
-      <a class="btn" routerLink="/products">Shop Now</a>
-      <div class="dots">
-        @for (s of slides; track $index) {
-          <button type="button" [class.active]="$index === index()"
-                  [attr.aria-label]="'Show slide ' + ($index + 1)" (click)="goTo($index)"></button>
-        }
-      </div>
-    </div>
-    <div class="hero-art" aria-hidden="true">{{ slide().art }}</div>
-  </div>
+  <app-hero-slider />
 
   <aside class="hero-side">
     <h2>New Arrivals</h2>

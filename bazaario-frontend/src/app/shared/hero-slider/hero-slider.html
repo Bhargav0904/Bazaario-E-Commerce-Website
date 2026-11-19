@@ -1,0 +1,53 @@
+<section class="slider" tabindex="0" aria-roledescription="carousel" aria-label="Offers and new arrivals"
+         (mouseenter)="hovering.set(true)" (mouseleave)="hovering.set(false)" (keydown)="onKey($event)">
+
+  @if (slides.length === 0) {
+    <div class="empty">Add your banner pictures in <code>banner-slides.ts</code></div>
+  } @else {
+
+    <div class="viewport" (pointerdown)="onPointerDown($event)" (pointerup)="onPointerUp($event)">
+      <div class="track" [style.transform]="'translateX(-' + index() * 100 + '%)'">
+        @for (s of slides; track $index; let i = $index) {
+          <div class="slide" role="group" aria-roledescription="slide"
+               [attr.aria-label]="(i + 1) + ' of ' + slides.length" [attr.aria-hidden]="i !== index()"
+               [class.clickable]="!s.buttonText && !!s.link" (click)="onSlideClick(s)">
+
+            @if (!broken().has(i)) {
+              <img [src]="s.image" [alt]="s.alt" draggable="false"
+                   [attr.loading]="i === 0 ? 'eager' : 'lazy'" (error)="markBroken(i)" />
+            } @else {
+              <div class="fallback"></div>
+            }
+
+            @if (s.title || s.text || s.buttonText) {
+              <div class="caption">
+                @if (s.title) { <h2>{{ s.title }}</h2> }
+                @if (s.text) { <p>{{ s.text }}</p> }
+                @if (s.buttonText) {
+                  <button type="button" class="btn" (click)="open(s.link)">{{ s.buttonText }}</button>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (slides.length > 1) {
+      <button type="button" class="arrow prev" aria-label="Previous slide" (click)="prev()">&#8249;</button>
+      <button type="button" class="arrow next" aria-label="Next slide" (click)="next()">&#8250;</button>
+
+      <div class="dots">
+        @for (s of slides; track $index; let i = $index) {
+          <button type="button" [class.active]="i === index()"
+                  [attr.aria-label]="'Go to slide ' + (i + 1)" (click)="goTo(i)"></button>
+        }
+      </div>
+
+      <button type="button" class="toggle" [attr.aria-label]="stopped() ? 'Play slideshow' : 'Pause slideshow'"
+              (click)="toggle()">
+        @if (stopped()) { &#9654; } @else { &#10074;&#10074; }
+      </button>
+    }
+  }
+</section>

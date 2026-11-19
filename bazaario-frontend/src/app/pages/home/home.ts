@@ -8,37 +8,23 @@ import { ProductService } from '../../core/product';
 import { API_BASE } from '../../core/api.config';
 import { Category } from '../../models/category.model';
 import { Product } from '../../models/product.model';
-
-interface Slide {
-  title: string; // "\n" starts a new line (home.css uses white-space: pre-line)
-  text: string;
-  art: string;
-}
+import { HeroSlider } from '../../shared/hero-slider/hero-slider';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [RouterLink, HeroSlider],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home implements OnInit, OnDestroy {
-  readonly apiBase = API_BASE;
 
-  // ===== Edit these to change the hero banner =====
-  readonly slides: Slide[] = [
-    { title: 'Upgrade\nYour Everyday', text: 'Great products. Fair prices.', art: '🎧⌚📱' },
-    { title: 'New Season\nNew Style', text: 'Fresh picks, just added.', art: '👕👟🎒' },
-    { title: 'Make Home\nFeel Better', text: 'Small upgrades for every room.', art: '🛋️🍳🪴' },
-  ];
+export class Home implements OnInit {
+  readonly apiBase = API_BASE;
 
   // Emoji for a category circle: the first keyword found in the category name wins
   private readonly icons: [string, string][] = [
     ['electron', '💻'], ['cloth', '👕'], ['fashion', '👕'], ['house', '🛋️'], ['home', '🛋️'],
     ['kitchen', '🍳'], ['sport', '👟'], ['fitness', '👟'], ['book', '📚'], ['beauty', '💄'], ['toy', '🧸'],
   ];
-
-  index = signal(0);
-  slide = computed(() => this.slides[this.index()]);
 
   categories = signal<Category[]>([]);
   shownCategories = computed(() => this.categories().slice(0, 6));
@@ -51,8 +37,6 @@ export class Home implements OnInit, OnDestroy {
 
   newsMessage = signal<string | null>(null);
   newsOk = signal(false);
-
-  private timer: ReturnType<typeof setInterval> | null = null;
 
   constructor(
     private productService: ProductService,
@@ -71,24 +55,6 @@ export class Home implements OnInit, OnDestroy {
       },
       error: () => this.loading.set(false),
     });
-    this.startAutoPlay();
-  }
-
-  ngOnDestroy(): void {
-    if (this.timer) clearInterval(this.timer);
-  }
-
-  // ---------- hero slider ----------
-  goTo(i: number): void {
-    this.index.set(i);
-    this.startAutoPlay(); // restart the timer after a manual click
-  }
-
-  private startAutoPlay(): void {
-    if (this.timer) clearInterval(this.timer);
-    // Skip auto-play for people whose device asks for reduced motion
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-    this.timer = setInterval(() => this.index.set((this.index() + 1) % this.slides.length), 4500);
   }
 
   // ---------- categories ----------

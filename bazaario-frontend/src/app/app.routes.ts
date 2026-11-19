@@ -17,7 +17,7 @@ import { authGuard } from './core/auth-guard';
 import { adminGuard } from './core/admin-guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'products', pathMatch: 'full' },
+  { path: '', component: Home, pathMatch: 'full' },
 
   // Public
   { path: 'login', component: Login },
@@ -37,5 +37,5 @@ export const routes: Routes = [
   { path: 'admin/users', component: AdminUsers, canActivate: [adminGuard] },
 
   // Anything else
-  { path: '**', redirectTo: 'products' },
+  { path: '**', redirectTo: '' },
 ];
